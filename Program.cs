@@ -18,5 +18,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapEndpoints<UsersManagementEndpointMapper>();
 app.MapEndpoints<StudentsManagementEndpointMapper>();
+app.MapEndpoints<TeachersManagementEndpointMapper>();
 
 app.Run();
