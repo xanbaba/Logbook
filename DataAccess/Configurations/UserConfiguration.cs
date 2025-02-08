@@ -9,7 +9,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.HasIndex(u => u.Login).IsUnique();
+        builder.HasIndex(u => u.Email).IsUnique();
         builder.HasIndex(u => u.FirstName).IsUnique(false);
+        builder.HasIndex(u => u.Role).IsUnique(false);
         
         builder.Property(u => u.FirstName).HasMaxLength(50).IsRequired().IsUnicode();
         builder.Property(u => u.LastName).HasMaxLength(100).IsRequired().IsUnicode();
