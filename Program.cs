@@ -1,4 +1,5 @@
-using Logbook.EndpointMappers;
+using Logbook;
+using Logbook.Features.UsersManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,4 +16,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapEndpoints<UsersManagementEndpointMapper>();
 app.Run();

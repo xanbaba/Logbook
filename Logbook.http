@@ -1,6 +1,13 @@
 @Logbook_HostAddress = http://localhost:5220
 
-GET {{Logbook_HostAddress}}/weatherforecast/
+GET {{Logbook_HostAddress}}/users
 Accept: application/json
 
 ###
+
+POST {{Logbook_HostAddress}}/users
+Content-Type: application/json
+
+###
+
+DELETE {{Logbook_HostAddress}}/users/0194e5af-ae13-714b-a974-1acee1f19cd3
