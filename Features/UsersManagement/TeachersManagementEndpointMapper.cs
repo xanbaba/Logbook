@@ -27,7 +27,7 @@ public abstract class TeachersManagementEndpointMapper : IEndpointMapper
         throw new NotImplementedException();
     }
 
-    private static Task<IResult> GetTeachers(int offset = 0, int limit = 100)
+    private static Task<IResult> GetTeachers(int offset = 0, int count = 100)
     {
         throw new NotImplementedException();
     }
