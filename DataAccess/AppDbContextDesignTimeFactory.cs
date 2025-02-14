@@ -11,8 +11,10 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         var configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.AddJsonFile("appsettings.json");
+        configurationBuilder.AddUserSecrets(typeof(AppDbContext).Assembly);
         var configuration = configurationBuilder.Build();
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        optionsBuilder.UseSqlServer(connectionString);
         return new AppDbContext(optionsBuilder.Options);
     }
 }
