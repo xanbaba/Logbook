@@ -15,10 +15,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.Property(u => u.FirstName).HasMaxLength(50).IsRequired().IsUnicode();
         builder.Property(u => u.LastName).HasMaxLength(100).IsRequired().IsUnicode();
-        builder.Property(u => u.FatherName).HasMaxLength(50).IsRequired().IsUnicode();
+        builder.Property(u => u.FatherName).HasMaxLength(50).IsUnicode();
         builder.Property(u => u.Login).HasMaxLength(50).IsRequired().IsUnicode(false);
         builder.Property(u => u.PasswordHash).HasMaxLength(60).IsRequired().IsUnicode(false);
-        builder.Property(u => u.Email).HasMaxLength(255).IsRequired().IsUnicode();
+        builder.Property(u => u.Email).HasMaxLength(255).IsUnicode();
         builder.Property(u => u.Role).HasConversion<string>().HasMaxLength(20);
+        builder.Property(u => u.BornAt).IsRequired();
     }
 }

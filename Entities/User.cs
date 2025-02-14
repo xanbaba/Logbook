@@ -9,9 +9,9 @@ public class User
     public string Login { get; set; } = null!;
     public string PasswordHash { get; set; } = null!;
     public DateOnly BornAt { get; set; }
-    public DateOnly LastSeenAt { get; set; }
+    public DateOnly? LastSeenAt { get; set; }
     public string? Email { get; set; }
-    public UserRole Role { get; set; }
+    public UserRole? Role { get; set; }
 }
 
 public enum UserRole
