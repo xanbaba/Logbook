@@ -1,4 +1,5 @@
-﻿using Logbook.Features.UsersManagement.Services;
+﻿using FluentValidation;
+using Logbook.Features.UsersManagement.Services;
 
 namespace Logbook.Features.UsersManagement;
 
@@ -11,8 +12,9 @@ public abstract class UsersManagementFeature : IFeature
         builder.Services.AddAutoMapper(cfg =>
         {
             cfg.AddProfile<UsersMapperProfile>();
-        
         });
+
+        builder.Services.AddScoped<IValidator<UserDTO>>();
     }
 
     public static void Configure(WebApplication app)
