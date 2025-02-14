@@ -1,11 +1,25 @@
 using Logbook;
+using Logbook.DataAccess;
 using Logbook.Features.UsersManagement;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
+{
+    optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddScoped<IUsersContext, UsersContext>();
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<UsersMapperProfile>();
+        
+});
 
 var app = builder.Build();
 
@@ -16,9 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapEndpoints<UsersManagementEndpointMapper>();
-app.MapEndpoints<StudentsManagementEndpointMapper>();
-app.MapEndpoints<TeachersManagementEndpointMapper>();
-app.MapEndpoints<AdminsManagementEndpointMapper>();
+app.MapGroup("/api").MapEndpoints<UsersManagementEndpointMapper>();
+
+app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 
 app.Run();

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Logbook.DataAccess;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Student> Students { get; set; }
@@ -12,12 +12,6 @@ public class AppDbContext : DbContext
     public DbSet<Group> Groups { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<GroupTeacher> GroupTeachers { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer();
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());

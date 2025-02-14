@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Logbook.DataAccess;
 
@@ -7,6 +8,11 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        return new AppDbContext();
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        var configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.AddJsonFile("appsettings.json");
+        var configuration = configurationBuilder.Build();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        return new AppDbContext(optionsBuilder.Options);
     }
 }
