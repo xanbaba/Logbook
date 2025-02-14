@@ -10,6 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasIndex(u => u.Login).IsUnique();
         builder.HasIndex(u => u.Email).IsUnique();
+        
         builder.HasIndex(u => u.FirstName).IsUnique(false);
         builder.HasIndex(u => u.Role).IsUnique(false);
         
@@ -20,6 +21,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash).HasMaxLength(60).IsRequired().IsUnicode(false);
         builder.Property(u => u.Email).HasMaxLength(255).IsUnicode();
         builder.Property(u => u.Role).HasConversion<string>().HasMaxLength(20);
-        builder.Property(u => u.BornAt).IsRequired();
+        builder.Property(u => u.UtcBornAt).IsRequired();
     }
 }
