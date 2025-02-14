@@ -58,12 +58,12 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         return TypedResults.Ok(new GetUserResponse(mapper.Map<User, UserDTO>(user), id));
     }
 
-    private static async Task<Ok<UserDTO[]>> GetUsers
+    private static async Task<Ok<GetUserResponse[]>> GetUsers
     (
         [FromServices] IUsersContext usersContext,
         [FromServices] IMapper mapper,
-        [AsParameters] int offset,
-        [AsParameters] int count
+        int offset = 0,
+        int count = 0
     )
     {
         if (offset <= 0) offset = 0;
@@ -72,7 +72,7 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         else if (count > 100) count = 100;
 
         var usersRaw = await usersContext.GetUsersAsync();
-        var users = usersRaw.Skip(offset).Take(count).Select(mapper.Map<User, UserDTO>)
+        var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
             .ToArray();
 
         return TypedResults.Ok(users);
@@ -98,15 +98,15 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         }
 
         var mappedUser = mapper.Map<UserDTO, User>(dto);
-        
+
         var hashedPassword = PasswordHasher.HashPassword(dto.Password!);
         mappedUser.PasswordHash = hashedPassword;
-        
+
         try
         {
             var user = await usersContext.AddUserAsync(mappedUser);
 
-            return TypedResults.Created($"users/{user.Id}");
+            return TypedResults.Created($"{user.Id}");
         }
         catch (UniqueConstraintException e)
         {

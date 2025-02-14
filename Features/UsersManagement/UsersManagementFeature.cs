@@ -14,7 +14,7 @@ public abstract class UsersManagementFeature : IFeature
             cfg.AddProfile<UsersMapperProfile>();
         });
 
-        builder.Services.AddScoped<IValidator<UserDTO>>();
+        builder.Services.AddScoped<IValidator<UserDTO>, UserValidator>();
     }
 
     public static void Configure(WebApplication app)

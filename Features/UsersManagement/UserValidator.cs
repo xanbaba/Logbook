@@ -14,8 +14,7 @@ public class UserValidator : AbstractValidator<UserDTO>
         RuleFor(u => u.FatherName).NotEmpty().MaximumLength(50)
             .When(u => u.FatherName is not null);
         RuleFor(u => u.UtcBornAt)
-            .NotNull()
-            .Must(b => b!.Value < DateOnly.FromDateTime(DateTime.UtcNow))
+            .Must(b => b.HasValue && b.Value < DateOnly.FromDateTime(DateTime.UtcNow))
             .WithMessage("You can't add not born people :)");
         RuleFor(u => u.Role).NotEmpty().IsEnumName(typeof(UserRole), false)
             .When(u => u.Role is not null)
