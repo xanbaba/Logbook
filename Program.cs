@@ -1,5 +1,5 @@
-using Logbook;
 using Logbook.DataAccess;
+using Logbook.Extensions;
 using Logbook.Features.UsersManagement;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddScoped<IUsersContext, UsersContext>();
 
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile<UsersMapperProfile>();
-        
-});
+builder.AddFeature<UsersManagementFeature>();
+
 
 var app = builder.Build();
 
@@ -30,7 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGroup("/api").MapEndpoints<UsersManagementEndpointMapper>();
+app.UseFeature<UsersManagementFeature>();
 
 app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 
