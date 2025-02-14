@@ -135,6 +135,7 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         }
 
         var mappedUser = mapper.Map<UserDTO, User>(dto);
+        mappedUser.Id = id;
         mappedUser.PasswordHash = PasswordHasher.HashPassword(dto.Password!);
 
         try
