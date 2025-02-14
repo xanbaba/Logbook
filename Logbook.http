@@ -1,6 +1,22 @@
-@Logbook_HostAddress = http://localhost:5220
+@Logbook_HostAddress = http://localhost:5220/api
 
-GET {{Logbook_HostAddress}}/users
+#public record UserDTO
+#{
+#    public string? FirstName { get; set; }
+#    public string? LastName { get; set; }
+#    public string? FatherName { get; set; }
+#    public string? Login { get; set; }
+#    public string? Password { get; set; }
+#    public DateOnly? BornAt { get; set; }
+#    public string? Email { get; set; }
+#    public UserRole? Role { get; set; }
+#}
+
+GET {{Logbook_HostAddress}}/users?offset=-1&count=-20
+Accept: application/json
+
+###
+GET {{Logbook_HostAddress}}/users/0195009d-473b-7486-a3ce-f544e85fd979
 Accept: application/json
 
 ###
@@ -8,6 +24,17 @@ Accept: application/json
 POST {{Logbook_HostAddress}}/users
 Content-Type: application/json
 
+{
+  "FirstName": "Khanbaba",
+  "LastName": "Fatullayev",
+  "Password": "SuperSecretPassword",
+  "Email": "oooo0o@gmail.com",
+  "Login": "Xanbaba2",
+  "FatherName": "Fikret"
+}
+###
+
+GET {{Logbook_HostAddress}}/users/ecd3e158-4039-4257-8717-08dd4c5b45a0
 ###
 
 DELETE {{Logbook_HostAddress}}/users/0194e5af-ae13-714b-a974-1acee1f19cd3
