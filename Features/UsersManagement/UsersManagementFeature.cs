@@ -19,6 +19,6 @@ public abstract class UsersManagementFeature : IFeature
 
     public static void Configure(WebApplication app)
     {
-        app.MapGroup("/api").MapEndpoints<UsersManagementEndpointMapper>();
+        app.MapGroup("/api/v1").MapEndpoints<UsersManagementEndpointMapper>();
     }
 }
