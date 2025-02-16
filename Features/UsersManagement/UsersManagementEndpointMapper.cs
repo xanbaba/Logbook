@@ -20,10 +20,10 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         source.MapGet("/users/{id:guid}", GetUser);
 
         // GET /users/by-email/ooo0o@gmail.com
-        source.MapGet("/users/by-email/{email}", (string email) => { });
+        source.MapGet("/users/email/{email}", GetUserByEmail);
 
         // GET /users/by-login/xanbaba
-        source.MapGet("/users/by-login/{login}", (string login) => { });
+        source.MapGet("/users/login/{login}", GetUserByLogin);
 
         // POST /users
         source.MapPost("/users", CreateUser);
@@ -57,19 +57,40 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
 
         return TypedResults.Ok(new GetUserResponse(mapper.Map<User, UserDTO>(user), id));
     }
+    
+    private static async Task<Results<Ok<UserDTO>, NotFound<string>>> GetUserByEmail(string email, IUsersContext usersContext, IMapper mapper)
+    {
+        var user = await usersContext.GetUserByEmailAsync(email);
+
+        if (user is null)
+        {
+            return TypedResults.NotFound($"User with email {email} not found");
+        }
+
+        return TypedResults.Ok(mapper.Map<User, UserDTO>(user));
+    }
+    
+    private static async Task<Results<Ok<UserDTO>, NotFound<string>>> GetUserByLogin(string login, IUsersContext usersContext, IMapper mapper)
+    {
+        var user = await usersContext.GetUserByLoginAsync(login);
+
+        if (user is null)
+        {
+            return TypedResults.NotFound($"User with login {login} not found");
+        }
+
+        return TypedResults.Ok(mapper.Map<User, UserDTO>(user));
+    }
 
     private static async Task<Ok<GetUserResponse[]>> GetUsers
     (
         [FromServices] IUsersContext usersContext,
         [FromServices] IMapper mapper,
         int offset = 0,
-        int count = 0
+        int count = 30
     )
     {
-        if (offset <= 0) offset = 0;
-
-        if (count <= 0) count = 30;
-        else if (count > 100) count = 100;
+        if (count > 100) count = 100;
 
         var usersRaw = await usersContext.GetUsersAsync();
         var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
