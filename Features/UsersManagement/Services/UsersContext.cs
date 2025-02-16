@@ -84,7 +84,7 @@ public class UsersContext(AppDbContext dbContext, IMapper mapper) : IUsersContex
     {
         // Checks if db already has a user with the same Email or Login
         var existingUser =
-            dbContext.Users.FirstOrDefault(u => (u.Email != null && u.Email == user.Email) || u.Login == user.Login);
+            dbContext.Users.FirstOrDefault(u => u.Id != user.Id && ((u.Email != null && u.Email == user.Email) || u.Login == user.Login));
 
         if (existingUser == null) return;
         
