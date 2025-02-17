@@ -7,7 +7,7 @@ GET {{Logbook_HostAddress}}/users?offset=1&count=1
 
 // Enpoint: source.MapGet("/users/{id:guid}", GetUser);
 // Status: Tested
-GET {{Logbook_HostAddress}}/users/0195144f-98c9-72a6-a447-ea36b00707b8
+GET {{Logbook_HostAddress}}/users/0195147a-def5-78e1-815e-f8dab9eb4b2d
 ###
 
 // Enpoint: source.MapGet("/users/email/{email}", GetUserByEmail);
@@ -17,7 +17,7 @@ GET {{Logbook_HostAddress}}/users/email/oo00oo0o@gmail.com
 
 // Endpoint: source.MapGet("/users/login/{login}", GetUserByLogin);
 // Status: Tested
-GET {{Logbook_HostAddress}}/users/logind/Xanbaba2
+GET {{Logbook_HostAddress}}/users/login/coolLogasiFr
 ###
 
 // Endpoint: source.MapPost("/users", CreateUser);
@@ -28,12 +28,12 @@ Content-Type: application/json
 {
   "firstname": "Brown",
   "lastname": "White",
-  "Login": "coolLogiFr",
+  "Login": "coolLogasiFr",
   "utcBornAt": "2005-01-30",
   "Password": "coolPass@!1",
   "UnknownParam": "BadParam",
-  "email": "oo0rroo007o@gmail.com",
-  "role": "teacher"
+  "email": "oo0rroo0as07o@gmail.com",
+  "role": "student"
 }
 ###
 
@@ -42,3 +42,17 @@ Content-Type: application/json
 DELETE {{Logbook_HostAddress}}/users/0195144f-98c9-72a6-a447-ea36b00707b8
 ###
 
+// Enpoint: source.MapGet("/users/students", GetStudents);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/students?offset=1
+###
+
+// Enpoint: source.MapGet("/users/teachers", GetTeachers);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/teachers?offset=1
+###
+
+// Enpoint: source.MapGet("/users/admins", GetAdmins);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/admins?offset=30
+###

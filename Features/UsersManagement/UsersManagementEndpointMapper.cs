@@ -34,9 +34,14 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         // DELETE /users/0194e5af-ae13-714b-a974-1acee1f19cd3
         source.MapDelete("/users/{id:guid}", DeleteUser);
 
-        source.MapGet("/users/students", () => { });
-        source.MapGet("/users/teachers", () => { });
-        source.MapGet("/users/admins", () => { });
+        // GET /users/students?offset=10&count=20
+        source.MapGet("/users/students", GetStudents);
+        
+        // GET /users/teachers?offset=10&count=20
+        source.MapGet("/users/teachers", GetTeachers);
+        
+        // GET /users/admins?offset=10&count=20
+        source.MapGet("/users/admins", GetAdmins);
     }
 
     [SuppressMessage("ReSharper", "NotAccessedPositionalProperty.Local")]
@@ -93,6 +98,57 @@ public abstract class UsersManagementEndpointMapper : IEndpointMapper
         if (count > 100) count = 100;
 
         var usersRaw = await usersContext.GetUsersAsync();
+        var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
+            .ToArray();
+
+        return TypedResults.Ok(users);
+    }
+    
+    private static async Task<Ok<GetUserResponse[]>> GetStudents
+    (
+        [FromServices] IUsersContext usersContext,
+        [FromServices] IMapper mapper,
+        int offset = 0,
+        int count = 30
+    )
+    {
+        if (count > 100) count = 100;
+
+        var usersRaw = await usersContext.GetUsersByRoleAsync(UserRole.Student);
+        var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
+            .ToArray();
+
+        return TypedResults.Ok(users);
+    }
+    
+    private static async Task<Ok<GetUserResponse[]>> GetTeachers
+    (
+        [FromServices] IUsersContext usersContext,
+        [FromServices] IMapper mapper,
+        int offset = 0,
+        int count = 30
+    )
+    {
+        if (count > 100) count = 100;
+
+        var usersRaw = await usersContext.GetUsersByRoleAsync(UserRole.Teacher);
+        var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
+            .ToArray();
+
+        return TypedResults.Ok(users);
+    }
+    
+    private static async Task<Ok<GetUserResponse[]>> GetAdmins
+    (
+        [FromServices] IUsersContext usersContext,
+        [FromServices] IMapper mapper,
+        int offset = 0,
+        int count = 30
+    )
+    {
+        if (count > 100) count = 100;
+
+        var usersRaw = await usersContext.GetUsersByRoleAsync(UserRole.Admin);
         var users = usersRaw.Skip(offset).Take(count).Select(u => new GetUserResponse(mapper.Map<User, UserDTO>(u), u.Id))
             .ToArray();
 

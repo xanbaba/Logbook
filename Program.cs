@@ -32,5 +32,6 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseFeature<UsersManagementFeature>();
 
-app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+// app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureDeleted();
+app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
 app.Run();
