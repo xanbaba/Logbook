@@ -1,29 +1,44 @@
-@Logbook_HostAddress = http://localhost:5220/api
+@Logbook_HostAddress = http://localhost:5220/api/v1
 
-GET {{Logbook_HostAddress}}/users
-Accept: application/json
-
-###
-GET {{Logbook_HostAddress}}/users/019505f9-d0f8-76a6-8b08-73e70ffb5b6d
-Accept: application/json
-
+// Endpoint: source.MapGet("/users", GetUsers);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users?offset=1&count=1
 ###
 
+// Enpoint: source.MapGet("/users/{id:guid}", GetUser);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/0195144f-98c9-72a6-a447-ea36b00707b8
+###
+
+// Enpoint: source.MapGet("/users/email/{email}", GetUserByEmail);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/email/oo00oo0o@gmail.com
+###
+
+// Endpoint: source.MapGet("/users/login/{login}", GetUserByLogin);
+// Status: Tested
+GET {{Logbook_HostAddress}}/users/logind/Xanbaba2
+###
+
+// Endpoint: source.MapPost("/users", CreateUser);
+// Status: Tested
 POST {{Logbook_HostAddress}}/users
 Content-Type: application/json
 
 {
-  "FirstName": "Khanbaba",
-  "LastName": "Fatullayev",
-  "Password": "P@ssword!1",
-  "Email": "oo0oo0o@gmail.com",
-  "Login": "Xanbaba1",
-  "FatherName": "Fikret",
-  "UtcBornAt": "2005-04-10"
+  "firstname": "Brown",
+  "lastname": "White",
+  "Login": "coolLogiFr",
+  "utcBornAt": "2005-01-30",
+  "Password": "coolPass@!1",
+  "UnknownParam": "BadParam",
+  "email": "oo0rroo007o@gmail.com",
+  "role": "teacher"
 }
 ###
 
-GET {{Logbook_HostAddress}}/users/019505fa-64db-70bf-b5c9-29183de289b9
+// Enpoint: source.MapDelete("/users/{id:guid}", DeleteUser);
+// Status: Tested
+DELETE {{Logbook_HostAddress}}/users/0195144f-98c9-72a6-a447-ea36b00707b8
 ###
 
-DELETE {{Logbook_HostAddress}}/users/019505f7-e81b-70f0-9ccf-28b670fea5ab
