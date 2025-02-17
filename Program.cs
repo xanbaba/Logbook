@@ -1,3 +1,4 @@
+using Logbook;
 using Logbook.DataAccess;
 using Logbook.Extensions;
 using Logbook.Features.UsersManagement;
@@ -26,8 +27,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseFeature<UsersManagementFeature>();
 
 app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
-
 app.Run();
