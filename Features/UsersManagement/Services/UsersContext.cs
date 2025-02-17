@@ -39,8 +39,7 @@ public class UsersContext(AppDbContext dbContext, IMapper mapper) : IUsersContex
         
         user.Id = Guid.CreateVersion7();
         var entity = dbContext.Users.Add(user).Entity;
-
-        // ToDo: Catch if user with unique data same as this one's exists
+        
         await dbContext.SaveChangesAsync();
 
         return entity;
