@@ -87,7 +87,7 @@ public class UsersContext(AppDbContext dbContext, IMapper mapper) : IUsersContex
 
         if (existingUser == null) return;
         
-        if (existingUser.Email == user.Email)
+        if (existingUser.Email is not null && existingUser.Email == user.Email)
         {
             throw new UniqueConstraintException("Email already exists");
         }
