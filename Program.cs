@@ -1,6 +1,7 @@
 using Logbook;
 using Logbook.DataAccess;
 using Logbook.Extensions;
+using Logbook.Features.AuthFeature;
 using Logbook.Features.UsersManagement;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,10 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
     optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
+// Features
 builder.AddFeature<UsersManagementFeature>();
+builder.AddFeature<AuthFeature>();
 
 
 var app = builder.Build();
@@ -28,9 +32,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Middleware for handling either BadRequest or Internal errors
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+// Features
 app.UseFeature<UsersManagementFeature>();
+app.UseFeature<AuthFeature>();
 
 // app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureDeleted();
 app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
