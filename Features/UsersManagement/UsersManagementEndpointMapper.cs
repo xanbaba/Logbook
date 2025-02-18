@@ -2,6 +2,7 @@
 using AutoMapper;
 using FluentValidation;
 using Logbook.Entities;
+using Logbook.Features.AuthFeature;
 using Logbook.Features.UsersManagement.Exceptions;
 using Logbook.Features.UsersManagement.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
