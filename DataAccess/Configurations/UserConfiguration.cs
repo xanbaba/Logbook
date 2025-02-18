@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using Bogus;
 using Logbook.Entities;
+using Logbook.Features.AuthFeature;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,7 +37,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .RuleFor(u => u.UtcLastSeenAt, f => DateOnly.FromDateTime(f.Date.Past()))
             .RuleFor(u => u.Login, f => f.Internet.UserName())
             .RuleFor(u => u.PasswordHash,
-                f => f.Internet.Password())
+                f => PasswordHasher.HashPassword(f.Internet.Password()))
             .RuleFor(u => u.Role, f => f.PickRandom<UserRole>()).Generate(1000);
         builder.HasData(fakeUsers);
     }
