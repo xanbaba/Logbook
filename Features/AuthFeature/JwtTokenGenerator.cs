@@ -20,10 +20,10 @@ public class JwtTokenGenerator(IConfiguration configuration, AppDbContext dbCont
             claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()!));
         }
 
-        var issuer = configuration["Jwt:Issuer"];
-        var audience = configuration["Jwt:Audience"];
-        var expires = DateTime.UtcNow.AddMinutes(configuration.GetSection("Jwt:LifetimeMinutes").Get<int>());
-        var securityKey = new SymmetricSecurityKey(Constants.DefaultEncoding.GetBytes(configuration["Jwt:Secret"]!));
+        var issuer = configuration.GetJwtSecret();
+        var audience = configuration.GetJwtAudience();
+        var expires = DateTime.UtcNow.AddMinutes(configuration.GetLifetimeMinutes());
+        var securityKey = new SymmetricSecurityKey(Constants.DefaultEncoding.GetBytes(configuration.GetJwtSecret()));
         var securityToken = new JwtSecurityToken(issuer, audience, claims, expires: expires,
             signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256));
         var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
