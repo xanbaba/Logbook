@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Logbook.Entities;
 using Logbook.Features.UsersManagement.Services;
 
 namespace Logbook.Features.UsersManagement;
@@ -19,6 +20,6 @@ public abstract class UsersManagementFeature : IFeature
 
     public static void Configure(WebApplication app)
     {
-        app.MapGroup("/api/v1").MapEndpoints<UsersManagementEndpointMapper>();
+        app.MapGroup("/api/v1").RequireAuthorization(UserRole.Admin.ToString()).MapEndpoints<UsersManagementEndpointMapper>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using Bogus;
 using Logbook.Entities;
+using Logbook.Features.AuthFeature;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,20 +25,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email).HasMaxLength(255).IsUnicode();
         builder.Property(u => u.Role).HasConversion<string>().HasMaxLength(20);
         builder.Property(u => u.UtcBornAt).IsRequired();
-
-        // Bogus(Fake data)
-        var fakeUsers = new Faker<User>()
-            .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-            .RuleFor(u => u.FatherName, f => f.Name.FirstName())
-            .RuleFor(u => u.Id, f => f.Random.Uuid())
-            .RuleFor(u => u.Email, f => f.Internet.Email())
-            .RuleFor(u => u.UtcBornAt, f => DateOnly.FromDateTime(f.Date.Past()))
-            .RuleFor(u => u.LastName, f => f.Name.LastName())
-            .RuleFor(u => u.UtcLastSeenAt, f => DateOnly.FromDateTime(f.Date.Past()))
-            .RuleFor(u => u.Login, f => f.Internet.UserName())
-            .RuleFor(u => u.PasswordHash,
-                f => f.Internet.Password())
-            .RuleFor(u => u.Role, f => f.PickRandom<UserRole>()).Generate(1000);
-        builder.HasData(fakeUsers);
     }
 }
