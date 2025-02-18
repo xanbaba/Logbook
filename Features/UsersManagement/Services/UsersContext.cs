@@ -8,14 +8,14 @@ namespace Logbook.Features.UsersManagement.Services;
 
 public class UsersContext(AppDbContext dbContext, IMapper mapper) : IUsersContext
 {
-    public Task<IEnumerable<User>> GetUsersAsync()
+    public Task<IQueryable<User>> GetUsersAsync()
     {
-        return Task.FromResult<IEnumerable<User>>(dbContext.Users.AsQueryable());
+        return Task.FromResult(dbContext.Users.AsQueryable());
     }
 
-    public Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role)
+    public Task<IQueryable<User>> GetUsersByRoleAsync(UserRole role)
     {
-        return Task.FromResult<IEnumerable<User>>(dbContext.Users.Where(u => u.Role == role).AsQueryable());
+        return Task.FromResult(dbContext.Users.Where(u => u.Role == role).AsQueryable());
     }
 
     public async Task<User?> GetUserByIdAsync(Guid id)

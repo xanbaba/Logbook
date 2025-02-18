@@ -5,8 +5,8 @@ namespace Logbook.Features.UsersManagement.Services;
 public interface IUsersContext
 {
     // Get
-    public Task<IEnumerable<User>> GetUsersAsync();
-    public Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role);
+    public Task<IQueryable<User>> GetUsersAsync();
+    public Task<IQueryable<User>> GetUsersByRoleAsync(UserRole role);
     public Task<User?> GetUserByIdAsync(Guid id);
     public Task<User?> GetUserByLoginAsync(string login);
     public Task<User?> GetUserByEmailAsync(string email);
