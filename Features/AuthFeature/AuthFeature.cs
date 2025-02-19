@@ -68,6 +68,8 @@ public abstract class AuthFeature : IFeature
                 PasswordHash = PasswordHasher.HashPassword(defaultAdminPassword),
                 Id = Guid.CreateVersion7()
             });
+
+            appDbContext.SaveChanges();
         }
     }
 }
