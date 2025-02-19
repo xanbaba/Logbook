@@ -1,29 +1,40 @@
 @Logbook_HostAddress = http://localhost:5220/api/v1
 
+@AccessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjAxOTUxZGUxLTM0OGUtNzJmNC1iZTViLTRiNDI3MzM0NzEyOCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM5OTcwNjU0LCJpc3MiOiJZZ3g2V0NaUEg5TzE4TjZ4QjBxWUVOWmRtZVZud252V1hBRUF4NDAycU5EOFRsT2dqQXRZVEVkeDM1anduTGUiLCJhdWQiOiJMb2dib29rVXNlcnMifQ.wX_XETIrDyIxGpHOFgUHzWgBTXGbe9_vKXdw7d241-s
+@RefreshToken = OUp/5jEAPhm/URRBskQGnDZ65lgqXPyY1/DCT3Iwye4=
+
 // Endpoint: source.MapGet("/users", GetUsers);
 // Status: Tested
 GET {{Logbook_HostAddress}}/users?offset=1&count=1
+Authorization: {{AccessToken}}
 ###
 
 // Enpoint: source.MapGet("/users/{id:guid}", GetUser);
 // Status: Tested
-GET {{Logbook_HostAddress}}/users/0195147a-def5-78e1-815e-f8dab9eb4b2d
+GET {{Logbook_HostAddress}}/users/01951e1f-fe28-7bdc-9f73-e8f6fafada07
+Authorization: {{AccessToken}}
+
 ###
 
 // Enpoint: source.MapGet("/users/email/{email}", GetUserByEmail);
 // Status: Tested
-GET {{Logbook_HostAddress}}/users/email/oo00oo0o@gmail.com
+GET {{Logbook_HostAddress}}/users/email/oo0rroo0as07o@gmail.com
+Authorization: {{AccessToken}}
+
 ###
 
 // Endpoint: source.MapGet("/users/login/{login}", GetUserByLogin);
 // Status: Tested
 GET {{Logbook_HostAddress}}/users/login/coolLogasiFr
+Authorization: {{AccessToken}}
+
 ###
 
 // Endpoint: source.MapPost("/users", CreateUser);
 // Status: Tested
 POST {{Logbook_HostAddress}}/users
 Content-Type: application/json
+Authorization: {{AccessToken}}
 
 {
   "firstname": "Brown",
@@ -40,6 +51,8 @@ Content-Type: application/json
 // Enpoint: source.MapDelete("/users/{id:guid}", DeleteUser);
 // Status: Tested
 DELETE {{Logbook_HostAddress}}/users/0195144f-98c9-72a6-a447-ea36b00707b8
+Authorization: {{AccessToken}}
+
 ###
 
 // Enpoint: source.MapGet("/users/students", GetStudents);
@@ -54,14 +67,24 @@ GET {{Logbook_HostAddress}}/users/teachers?offset=1
 
 // Enpoint: source.MapGet("/users/admins", GetAdmins);
 // Status: Tested
-GET {{Logbook_HostAddress}}/users/admins?offset=30
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImE3MTFkYjA0LTQ2NmQtYjk1NS1kYmNlLTdkZjNlZjFiNzg5NyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM5OTAwNzMwLCJpc3MiOiJZZ3g2V0NaUEg5TzE4TjZ4QjBxWUVOWmRtZVZud252V1hBRUF4NDAycU5EOFRsT2dqQXRZVEVkeDM1anduTGUiLCJhdWQiOiJMb2dib29rVXNlcnMifQ.JR6beSbRDzpGDjkH9FY9XJ_DpGwSQoDqfOa-km8-rpk
+GET {{Logbook_HostAddress}}/users/admins
+Authorization: {{AccessToken}} 
 ###
 
 POST {{Logbook_HostAddress}}/login
 Content-Type: application/json
 
+
+###
+
+#{
+#  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjAxOTUxZGNlLTExMGMtNzViNy1hNThiLWU2ZDA1NDczN2Q4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM5OTYyODIzLCJpc3MiOiJZZ3g2V0NaUEg5TzE4TjZ4QjBxWUVOWmRtZVZud252V1hBRUF4NDAycU5EOFRsT2dqQXRZVEVkeDM1anduTGUiLCJhdWQiOiJMb2dib29rVXNlcnMifQ.pH4KRdde8KMVKuoHTbp_HIScLzzGtbpuMW9OzOp19J8",
+#  "refreshToken": "DTH7xW1/fi8vOasno3zUQohI91lq7Jua44lWHoy31mQ="
+#}
+
+POST {{Logbook_HostAddress}}/refresh
+Content-Type: application/json
+
 {
-  "Login": "Supermarket",
-  "Password": "ArazMarket"
+  "refreshToken": "{{RefreshToken}}"
 }
