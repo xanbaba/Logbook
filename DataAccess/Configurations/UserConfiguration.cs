@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using Bogus;
-using Logbook.Entities;
-using Logbook.Features.AuthFeature;
+﻿using Logbook.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,6 +21,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash).HasMaxLength(60).IsRequired().IsUnicode(false);
         builder.Property(u => u.Email).HasMaxLength(255).IsUnicode();
         builder.Property(u => u.Role).HasConversion<string>().HasMaxLength(20);
-        builder.Property(u => u.UtcBornAt);
     }
 }
