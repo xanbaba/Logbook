@@ -15,6 +15,6 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
         var configuration = configurationBuilder.Build();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         optionsBuilder.UseSqlServer(connectionString);
-        return new AppDbContext(optionsBuilder.Options, configuration);
+        return new AppDbContext(optionsBuilder.Options);
     }
 }

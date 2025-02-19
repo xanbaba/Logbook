@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Logbook.DataAccess.Configurations;
 
-public class UserConfiguration(IConfiguration configuration) : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -25,23 +25,5 @@ public class UserConfiguration(IConfiguration configuration) : IEntityTypeConfig
         builder.Property(u => u.Email).HasMaxLength(255).IsUnicode();
         builder.Property(u => u.Role).HasConversion<string>().HasMaxLength(20);
         builder.Property(u => u.UtcBornAt);
-
-        var defaultAdminLogin = configuration["DefaultAdmin:Login"];
-        var defaultAdminPassword = configuration["DefaultAdmin:Password"];
-
-        if (string.IsNullOrEmpty(defaultAdminLogin) || string.IsNullOrEmpty(defaultAdminPassword))
-        {
-            throw new ApplicationException("Default admin login or password are required. Try set DefaultAdmin:Login, DefaultAdmin:Password in appsettings.json");
-        }
-
-        builder.HasData(new User
-        {
-            Id = Guid.CreateVersion7(),
-            FirstName = "DefaultAdmin",
-            LastName = "DefaultAdmin",
-            Login = defaultAdminLogin,
-            PasswordHash = PasswordHasher.HashPassword(defaultAdminPassword),
-            Role = UserRole.Admin
-        });
     }
 }

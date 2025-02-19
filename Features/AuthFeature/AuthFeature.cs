@@ -1,4 +1,5 @@
-﻿using Logbook.Entities;
+﻿using Logbook.DataAccess;
+using Logbook.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -40,9 +41,33 @@ public abstract class AuthFeature : IFeature
 
     public static void Configure(WebApplication app)
     {
-        app.MapGroup("/api/v1").MapEndpoints<AuthEndpointMapper>();
-        
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        var group = app.MapGroup("/api/v1");
+        group.MapEndpoints<AuthEndpointMapper>();
+
+        using var serviceScope = app.Services.CreateScope();
+        using var appDbContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        if (!appDbContext.Admins.Any())
+        {
+            var defaultAdminLogin = app.Configuration["DefaultAdmin:Login"];
+            var defaultAdminPassword = app.Configuration["DefaultAdmin:Password"];
+
+            if (string.IsNullOrEmpty(defaultAdminLogin) || string.IsNullOrEmpty(defaultAdminPassword))
+            {
+                throw new ApplicationException("Default admin login or password are required. Try setting 'DefaultAdmin:Login' and 'DefaultAdmin:Password' in appsettings.json.");
+            }
+            
+            appDbContext.Users.Add(new Admin
+            {
+                FirstName = "DefaultAdmin",
+                LastName = "DefaultAdmin",
+                Login = defaultAdminLogin,
+                PasswordHash = PasswordHasher.HashPassword(defaultAdminPassword),
+                Id = Guid.CreateVersion7()
+            });
+        }
     }
 }
