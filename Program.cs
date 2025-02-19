@@ -39,7 +39,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseFeature<UsersManagementFeature>();
 app.UseFeature<AuthFeature>();
 
-// app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureDeleted();
-// app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
-app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureDeleted();
+app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
+// app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 app.Run();
